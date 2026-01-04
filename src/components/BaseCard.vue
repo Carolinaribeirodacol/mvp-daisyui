@@ -13,7 +13,7 @@ const emit = defineEmits(['clickEpisode'])
 
 const charactersFilter = computed(() => {
   if (props.characters.length > 5) {
-    return props.characters.splice(0, 5)
+    return props.characters.slice(0, 5)
   }
 
   return props.characters
