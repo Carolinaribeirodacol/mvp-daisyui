@@ -1,5 +1,6 @@
 <script setup>
 import BaseCard from '@/components/BaseCard.vue'
+import ModalEpisode from '@/components/ModalEpisode.vue'
 import axios from 'axios'
 import { onMounted, ref } from 'vue'
 
@@ -7,6 +8,8 @@ const episodes = ref([])
 
 const page = ref(1)
 const totalPages = ref(0)
+const episodeSelected = ref('')
+const showModal = ref(false)
 
 onMounted(() => {
   handleGetEpisodes()
@@ -17,13 +20,12 @@ async function handleGetEpisodes() {
     const response = await axios.get('https://rickandmortyapi.com/api/episode', {
       params: {
         page: page.value,
-        totalPages: response.data.info.pages,
       },
     })
+    console.log(response.data.info.pages)
 
     episodes.value = response.data.results
-
-    console.log(response)
+    totalPages.value = response.data.info.pages
   } catch (error) {
     console.log(error)
   }
@@ -33,6 +35,11 @@ function setPagination(newPage) {
   page.value = newPage
 
   handleGetEpisodes()
+}
+
+function openModal(episodeId) {
+  episodeSelected.value = episodeId.toString()
+  showModal.value = true
 }
 </script>
 
@@ -47,7 +54,8 @@ function setPagination(newPage) {
         :name="episode.name"
         :episode="episode.episode"
         :characters="episode.characters"
-        :airDate="episode.air_date"
+        :air-date="episode.air_date"
+        @clickEpisode="openModal(episode.id)"
       />
 
       <div class="flex justify-center py-6">
@@ -64,5 +72,7 @@ function setPagination(newPage) {
         </div>
       </div>
     </div>
+
+    <ModalEpisode :id="episodeSelected" v-model="showModal" />
   </div>
 </template>

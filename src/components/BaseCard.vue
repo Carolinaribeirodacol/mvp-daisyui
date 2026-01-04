@@ -1,5 +1,6 @@
 <script setup>
 import { computed } from 'vue'
+import Badge from './Badge.vue'
 
 const props = defineProps({
   name: String,
@@ -7,6 +8,8 @@ const props = defineProps({
   characters: Array,
   airDate: String,
 })
+
+const emit = defineEmits(['clickEpisode'])
 
 const charactersFilter = computed(() => {
   if (props.characters.length > 5) {
@@ -36,7 +39,10 @@ const firstCharacterImage = computed(() => {
 </script>
 
 <template>
-  <div class="card bg-base-100 shadow-sm hover:bg-neutral-content hover:shadow-xl cursor-pointer">
+  <div
+    class="card bg-base-100 shadow-sm hover:bg-neutral-content hover:shadow-xl cursor-pointer"
+    @click="emit('clickEpisode')"
+  >
     <figure v-if="firstCharacterImage">
       <img :src="firstCharacterImage" alt="first-character-image" />
     </figure>
@@ -58,11 +64,16 @@ const firstCharacterImage = computed(() => {
     <div class="card-body">
       <h2 class="card-title">
         {{ name }}
-        <div class="badge badge-secondary text-white">{{ episode }}</div>
+
+        <Badge color="white">
+          {{ episode }}
+        </Badge>
       </h2>
 
       <div class="card-actions justify-end">
-        <div class="badge badge-outline">{{ airDate }}</div>
+        <Badge outline>
+          {{ airDate }}
+        </Badge>
       </div>
     </div>
   </div>
