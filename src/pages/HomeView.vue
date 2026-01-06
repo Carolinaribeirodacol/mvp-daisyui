@@ -45,32 +45,38 @@ function openModal(episodeId) {
 
 <template>
   <div class="p-4 bg-base-200">
-    <div class="grid grid-cols-1 md:grid-cols-3 mg:grid-cols-3 gap-6">
-      <BaseCard
-        v-for="episode in episodes"
-        :key="episode.id"
-        :title="episode.name"
-        :episode="episode.episode"
-        :characters="episode.characters"
-        :air-date="episode.air_date"
-        @clickEpisode="openModal(episode.id)"
-      />
-    </div>
-
-    <div class="flex justify-center py-6">
-      <div class="join">
-        <button
-          v-for="(currentPage, index) in totalPages"
-          :key="index"
-          class="join-item btn btn-lg md:btn-md"
-          :class="{ 'btn-active': page === currentPage }"
-          @click="setPagination(index + 1)"
-        >
-          {{ currentPage }}
-        </button>
+    <div v-if="episodes">
+      <div class="grid grid-cols-1 md:grid-cols-3 mg:grid-cols-3 gap-6">
+        <BaseCard
+          v-for="episode in episodes"
+          :key="episode.id"
+          :title="episode.name"
+          :episode="episode.episode"
+          :characters="episode.characters"
+          :air-date="episode.air_date"
+          @clickEpisode="openModal(episode.id)"
+        />
       </div>
+
+      <div class="flex justify-center py-6">
+        <div class="join">
+          <button
+            v-for="(currentPage, index) in totalPages"
+            :key="index"
+            class="join-item btn btn-lg md:btn-md"
+            :class="{ 'btn-active': page === currentPage }"
+            @click="setPagination(index + 1)"
+          >
+            {{ currentPage }}
+          </button>
+        </div>
+      </div>
+
+      <ModalEpisode :id="episodeSelected" v-model="showModal" />
     </div>
 
-    <ModalEpisode :id="episodeSelected" v-model="showModal" />
+    <div v-else class="flex justify-center">
+      <span class="loading loading-dots loading-md"></span>
+    </div>
   </div>
 </template>

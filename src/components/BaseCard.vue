@@ -55,9 +55,9 @@ const randomCharacterImage = computed(() => {
 
     <div class="card-body">
       <h2 class="card-title justify-center">
-        <h3 class="text-primary">{{ title }}</h3>
+        <span>{{ title }}</span>
 
-        <Badge color="base-100">
+        <Badge>
           {{ episode }}
         </Badge>
       </h2>

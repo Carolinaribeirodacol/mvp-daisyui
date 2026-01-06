@@ -71,9 +71,10 @@ async function handleGetCharacter(characterUrl: string) {
 
       <div v-if="episode">
         <div class="card-body p-0">
-          <h3 class="card-title justify-center text-secondary">
+          <h3 class="card-title justify-center text-primary">
             Episode
-            <Badge background="secondary" color="base-100">
+
+            <Badge>
               {{ episode.episode }}
             </Badge>
           </h3>

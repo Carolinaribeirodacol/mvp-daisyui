@@ -1,14 +1,5 @@
 <script setup>
 const props = defineProps({
-  color: {
-    type: String,
-    default: 'white',
-  },
-  background: {
-    type: String,
-    default: 'primary',
-    required: false,
-  },
   outline: {
     type: Boolean,
     default: false,
@@ -17,14 +8,7 @@ const props = defineProps({
 </script>
 
 <template>
-  <div
-    class="badge badge-primary"
-    :class="[
-      `text-${props.color}`,
-      { 'badge-outline': props.outline },
-      `badge-${props.background}`,
-    ]"
-  >
+  <div class="badge badge-primary" :class="{ 'badge-outline': outline }">
     <slot></slot>
   </div>
 </template>
