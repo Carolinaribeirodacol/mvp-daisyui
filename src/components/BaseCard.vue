@@ -1,12 +1,17 @@
 <script setup>
 import { computed } from 'vue'
 import Badge from './Badge.vue'
+import { onMounted } from 'vue'
 
 const props = defineProps({
-  name: String,
+  title: String,
   episode: String,
   characters: Array,
   airDate: String,
+})
+
+onMounted(() => {
+  randomIndex.value = Math.floor(Math.random() * props.characters.length)
 })
 
 const emit = defineEmits(['clickEpisode'])
@@ -32,48 +37,49 @@ function getImage(url) {
   return `${newUrl}.jpeg`
 }
 
-const firstCharacterImage = computed(() => {
+const randomIndex = ref(0)
+const randomCharacterImage = computed(() => {
   if (!props.characters.length) return null
-  return getImage(props.characters[0])
+  return getImage(props.characters[randomIndex.value])
 })
 </script>
 
 <template>
   <div
-    class="card bg-base-100 shadow-sm hover:bg-neutral-content hover:shadow-xl cursor-pointer"
+    class="card card-side bg-base-100 shadow-sm hover:bg-neutral-content hover:shadow-xl cursor-pointer"
     @click="emit('clickEpisode')"
   >
-    <figure v-if="firstCharacterImage">
-      <img :src="firstCharacterImage" alt="first-character-image" />
+    <figure v-if="randomCharacterImage">
+      <img :src="randomCharacterImage" alt="random-character-image" />
     </figure>
 
-    <div class="avatar-group -space-x-6 m-auto pt-4">
-      <div class="avatar" v-for="(character, index) in charactersFilter" :key="index">
-        <div class="w-12">
-          <img :src="getImage(character)" alt="character-image" />
-        </div>
-      </div>
-
-      <div className="avatar avatar-placeholder" v-if="charactersCount">
-        <div className="bg-neutral text-neutral-content w-12">
-          <span>+{{ charactersCount }}</span>
-        </div>
-      </div>
-    </div>
-
     <div class="card-body">
-      <h2 class="card-title">
-        {{ name }}
+      <h2 class="card-title justify-center">
+        <h3 class="text-primary">{{ title }}</h3>
 
-        <Badge color="white">
+        <Badge color="base-100">
           {{ episode }}
         </Badge>
       </h2>
 
-      <div class="card-actions justify-end">
+      <div class="card-actions justify-center">
         <Badge outline>
           {{ airDate }}
         </Badge>
+      </div>
+
+      <div class="avatar-group -space-x-6 m-auto">
+        <div class="avatar" v-for="(character, index) in charactersFilter" :key="index">
+          <div class="w-12">
+            <img :src="getImage(character)" alt="character-image" />
+          </div>
+        </div>
+
+        <div className="avatar avatar-placeholder" v-if="charactersCount">
+          <div className="bg-neutral text-neutral-content w-12">
+            <span>+{{ charactersCount }}</span>
+          </div>
+        </div>
       </div>
     </div>
   </div>

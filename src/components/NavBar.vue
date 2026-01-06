@@ -1,5 +1,5 @@
 <template>
-  <div class="navbar bg-primary text-primary-content">
-    <button class="btn btn-ghost text-xl">MVP Rick and Morty</button>
+  <div class="navbar bg-primary text-secondary font-semibold text-xl flex justify-center">
+    MVP Rick and Morty - Episodes
   </div>
 </template>

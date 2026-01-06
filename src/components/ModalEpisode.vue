@@ -48,33 +48,41 @@ function closeModal() {
 </script>
 
 <template>
-  <dialog id="modal-episode" class="modal" :class="{ 'modal-open': show }">
-    <div class="modal-box" v-if="episode">
-      <form method="dialog">
-        <button @click="closeModal" class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">
-          ✕
-        </button>
-      </form>
+  <dialog class="modal" :class="{ 'modal-open': show }">
+    <div class="modal-box">
+      <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2" @click="closeModal">
+        ✕
+      </button>
 
-      <h3 class="text-lg font-bold mb-4">
-        {{ episode.name }}
+      <template v-if="episode">
+        <h3 class="text-xl text-center text-secondary font-semibold pb-6">
+          Episode <Badge background="secondary" color="base-100">{{ episode.episode }}</Badge>
+        </h3>
 
-        <Badge color="white"> {{ episode.episode }} </Badge>
-      </h3>
+        <div class="flex flex-col gap-4">
+          <h3 class="text-primary"><span class="font-semibold">Name: </span>{{ episode.name }}</h3>
 
-      <div class="avatar" v-for="(character, index) in episode.characters" :key="index">
-        <div class="w-16 rounded-full">
-          <img :src="getImage(character)" alt="character-image" />
+          <div>
+            <p class="text-primary pb-2 font-semibold">Characters:</p>
+
+            <div class="avatar p-1" v-for="(character, index) in episode.characters" :key="index">
+              <div class="w-16 rounded-full">
+                <img :src="getImage(character)" />
+              </div>
+            </div>
+          </div>
+
+          <Badge outline>Air date: {{ episode.air_date }}</Badge>
         </div>
-      </div>
+      </template>
 
-      <p class="py-4">
-        <Badge outline> {{ episode.air_date }} </Badge>
-      </p>
+      <div v-else class="flex justify-center">
+        <span class="loading loading-dots loading-md"></span>
+      </div>
     </div>
 
-    <div class="modal-box flex justify-center" v-else>
-      <span class="loading loading-dots loading-md"></span>
+    <div class="modal-backdrop">
+      <button @click="closeModal"></button>
     </div>
   </dialog>
 </template>
